@@ -265,8 +265,51 @@
   .rheostat-arrow { font-size: 0.6rem; color: #555; text-align: center; margin: 4px 0; }
 
   @media (max-width: 700px) {
+    body { padding: 16px 10px; }
+
     .quad-bottom { grid-template-columns: 1fr; }
+    .quad-kb { width: 100%; }
     .diagram-row { flex-direction: column; }
+
+    /* Teclado grande */
+    .switch-panel { padding: 10px; gap: 3px; flex-wrap: wrap; }
+    .sw { width: 60px; height: 48px; font-size: 0.65rem; }
+    .sw-stage-labels { width: 60px; }
+
+    /* Teclado compacto */
+    .switch-panel.sm { flex-wrap: wrap; padding: 8px; gap: 3px; }
+    .switch-panel.sm .sw { width: 44px; height: 32px; font-size: 0.55rem; }
+    .switch-panel.sm .sw-stage-labels { width: 44px; }
+
+    /* Frente — empilha elementos */
+    .front-view { flex-wrap: wrap; gap: 8px; justify-content: center; }
+    .light-group { gap: 8px; }
+    .headlight { width: 36px; height: 36px; }
+    .grille { width: 40px; height: 22px; margin: 0 2px; }
+
+    /* Traseira */
+    .rear-view { gap: 12px; }
+    .rear-light { width: 28px; height: 18px; }
+    .rear-turn { width: 22px; height: 8px; }
+    .rear-plate { width: 56px; height: 18px; font-size: 0.45rem; }
+
+    /* Setas */
+    .turn-signal { width: 14px; height: 8px; }
+
+    /* Reostato — 1 coluna */
+    .rheostat-row { grid-template-columns: 1fr; gap: 18px; }
+
+    /* Painel instrumentos */
+    .dash { padding: 12px 14px; gap: 6px 8px; }
+    .gauge-lg { width: 58px; height: 58px; }
+    .gauge-lg .needle { height: 20px; }
+    .gauge-sm { width: 30px; height: 30px; }
+    .gauge-sm .needle { height: 10px; }
+
+    /* Tabelas */
+    table { font-size: 0.7rem; }
+    th { padding: 5px 6px; font-size: 0.65rem; }
+    td { padding: 4px 6px; }
   }
 </style>
 </head>
