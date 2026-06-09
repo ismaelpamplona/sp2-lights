@@ -271,23 +271,28 @@
     .quad-kb { width: 100%; }
     .diagram-row { flex-direction: column; }
 
-    /* Teclado grande — nunca quebra linha */
-    .switch-panel { padding: 8px; gap: 2px; flex-wrap: nowrap; }
-    .sw { width: 48px; height: 38px; font-size: 0.55rem; }
+    /* Teclado grande — flex preenche 100% sem quebrar */
+    .switch-panel {
+      padding: 6px; gap: 2px; flex-wrap: nowrap; width: 100%;
+    }
+    .sw-with-stages { flex: 1; min-width: 0; }
+    .sw { width: 100%; height: 42px; font-size: 0.6rem; }
     .sw .h-icon { font-size: 1rem; }
     .sw .f-icon { font-size: 1rem; }
     .sw .l-icon { font-size: 0.85rem; }
-    .sw-stage-labels { width: 48px; }
+    .sw-stage-labels { width: 100%; }
     .sw-stage-labels span { font-size: 0.45rem; padding: 3px 0; }
 
-    /* Teclado compacto — nunca quebra linha */
-    .switch-panel.sm { flex-wrap: nowrap; padding: 6px; gap: 2px; }
-    .switch-panel.sm .sw { width: 36px; height: 26px; font-size: 0.45rem; }
-    .switch-panel.sm .sw .h-icon { font-size: 0.6rem; }
-    .switch-panel.sm .sw .f-icon { font-size: 0.6rem; }
-    .switch-panel.sm .sw .l-icon { font-size: 0.5rem; }
-    .switch-panel.sm .sw-stage-labels { width: 36px; }
-    .switch-panel.sm .sw-stage-labels span { font-size: 0.3rem; padding: 2px 0; }
+    /* Teclado compacto — idem */
+    .switch-panel.sm {
+      flex-wrap: nowrap; padding: 5px; gap: 2px; width: 100%;
+    }
+    .switch-panel.sm .sw { width: 100%; height: 30px; font-size: 0.5rem; }
+    .switch-panel.sm .sw .h-icon { font-size: 0.7rem; }
+    .switch-panel.sm .sw .f-icon { font-size: 0.7rem; }
+    .switch-panel.sm .sw .l-icon { font-size: 0.6rem; }
+    .switch-panel.sm .sw-stage-labels { width: 100%; }
+    .switch-panel.sm .sw-stage-labels span { font-size: 0.35rem; padding: 2px 0; }
 
     /* Frente — empilha elementos */
     .front-view { flex-wrap: wrap; gap: 8px; justify-content: center; }
