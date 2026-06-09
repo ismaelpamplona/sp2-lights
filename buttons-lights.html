@@ -76,12 +76,6 @@
   .grille-bars span { width: 2px; height: 14px; background: #282828; border-radius: 1px; }
 
   /* ─── Estados faróis ─── */
-  .headlight.lanterna {
-    background: radial-gradient(circle, #bb9930 0%, #6b5510 50%, #2a2008 100%);
-    border-color: #7a6620; box-shadow: 0 0 8px rgba(187,153,48,0.25);
-  }
-  .headlight.lanterna .num { color: #8a7520; }
-
   .headlight.low {
     background: radial-gradient(circle, #ffdd44 0%, #cc9a10 40%, #6b5010 80%, #2a2008 100%);
     border-color: #aa8820; box-shadow: 0 0 18px rgba(255,221,68,0.35);
@@ -94,8 +88,19 @@
   }
   .headlight.high .num { color: #ddcc55; }
 
-  /* ─── Setas ─── */
-  .front-side { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  /* ─── Faroletes dianteiros (M / M1) ─── */
+  .front-side { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .farolete {
+    width: 16px; height: 10px; border-radius: 3px;
+    border: 1px solid #333; background: #141410;
+  }
+  .farolete.on {
+    background: radial-gradient(circle, #eedd88 0%, #aa9944 70%, #665520 100%);
+    border-color: #998830; box-shadow: 0 0 6px rgba(238,221,136,0.3);
+  }
+  .front-label { font-size: 0.45rem; color: #666; }
+
+  /* ─── Setas dianteiras (U / U1) ─── */
   .turn-signal {
     width: 18px; height: 10px; border-radius: 3px;
     border: 1px solid #333; background: #1a1508;
@@ -117,6 +122,10 @@
     background: radial-gradient(circle, #ff4444 0%, #aa1111 60%, #551010 100%);
     border-color: #882020; box-shadow: 0 0 12px rgba(255,50,50,0.3);
   }
+  .rear-light.brake {
+    background: radial-gradient(circle, #ff2222 0%, #dd0000 40%, #880000 80%, #440000 100%);
+    border-color: #cc2020; box-shadow: 0 0 20px rgba(255,30,30,0.5);
+  }
   .rear-turn {
     width: 28px; height: 10px; border-radius: 3px;
     border: 1px solid #333; background: #1a1508;
@@ -125,15 +134,29 @@
     background: radial-gradient(circle, #ffaa33 0%, #cc7700 70%, #664400 100%);
     border-color: #aa7720; box-shadow: 0 0 8px rgba(255,170,51,0.4);
   }
+  .rear-label { font-size: 0.45rem; color: #666; }
   .rear-plate {
     width: 70px; height: 22px; background: #1a1a1a;
     border: 1px solid #282828; border-radius: 3px;
     display: flex; align-items: center; justify-content: center;
     font-size: 0.55rem; color: #777;
   }
-  .plate-light { width: 26px; height: 5px; border-radius: 3px; background: #111; margin: 0 auto; }
+  .plate-lights {
+    display: flex; gap: 20px; justify-content: center;
+  }
+  .plate-light { width: 18px; height: 5px; border-radius: 3px; background: #111; }
   .plate-light.on { background: #aa9955; box-shadow: 0 0 5px rgba(170,153,85,0.3); }
   .rear-section { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+
+  /* Farol de ré (X2) */
+  .reverse-light {
+    width: 24px; height: 12px; border-radius: 3px;
+    border: 1px solid #333; background: #141414;
+  }
+  .reverse-light.on {
+    background: radial-gradient(circle, #ffffff 0%, #cccccc 60%, #666666 100%);
+    border-color: #999; box-shadow: 0 0 10px rgba(255,255,255,0.3);
+  }
 
   /* ─── Painel central (teclado grande) ─── */
   .switch-panel {
@@ -181,7 +204,7 @@
   .switch-panel.sm .sw-stage-labels span { font-size: 0.5rem; padding: 3px 0; }
 
   /* ─── Indicadores ─── */
-  .indicators { display: flex; gap: 16px; justify-content: center; margin: 10px 0; }
+  .indicators { display: flex; gap: 16px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
   .ind { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: #777; }
   .dot { width: 10px; height: 10px; border-radius: 50%; }
   .dot.blue { background: #3388ff; box-shadow: 0 0 4px rgba(51,136,255,0.4); }
@@ -230,14 +253,12 @@
     transform-origin: bottom center; transform: rotate(-40deg);
     border-radius: 1px;
   }
-  /* Grande: conta-giro e velocímetro (span 2 rows) */
   .gauge-lg {
     width: 70px; height: 70px;
     grid-row: 1 / 3;
   }
   .gauge-lg .needle { height: 24px; }
   .gauge-lg .gauge-label { font-size: 0.48rem; }
-  /* Pequeno: gasolina, amperes, temp, relógio */
   .gauge-sm {
     width: 36px; height: 36px;
   }
@@ -262,7 +283,20 @@
   }
   .rheostat-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
   .rheostat-step .label { font-size: 0.7rem; color: #777; text-align: center; }
-  .rheostat-arrow { font-size: 0.6rem; color: #555; text-align: center; margin: 4px 0; }
+
+  /* ─── Iluminação interna ─── */
+  .interior-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px; margin: 12px 0;
+  }
+  .interior-item {
+    background: #0a0a0a; border: 1px solid #222; border-radius: 8px;
+    padding: 14px; text-align: center;
+  }
+  .interior-item .icon { font-size: 1.2rem; margin-bottom: 6px; }
+  .interior-item .name { font-size: 0.75rem; color: #bbb; margin-bottom: 4px; }
+  .interior-item .desc { font-size: 0.65rem; color: #666; }
+  .interior-item .code { font-size: 0.55rem; color: #555; margin-top: 4px; }
 
   @media (max-width: 700px) {
     body { padding: 16px 10px; }
@@ -294,7 +328,7 @@
     .switch-panel.sm .sw-stage-labels { width: 100%; }
     .switch-panel.sm .sw-stage-labels span { font-size: 0.35rem; padding: 2px 0; }
 
-    /* Frente — empilha elementos */
+    /* Frente */
     .front-view { flex-wrap: wrap; gap: 8px; justify-content: center; }
     .light-group { gap: 8px; }
     .headlight { width: 36px; height: 36px; }
@@ -323,6 +357,9 @@
     table { font-size: 0.7rem; }
     th { padding: 5px 6px; font-size: 0.65rem; }
     td { padding: 4px 6px; }
+
+    /* Interior */
+    .interior-grid { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -350,13 +387,13 @@
 </div>
 
 <table>
-  <tr><th>Pos.</th><th>Função</th></tr>
-  <tr><td>1</td><td>Interruptor dos faróis — <strong>3 posições</strong>: OFF → 1º (lanterna) → 2º (farol baixo)</td></tr>
-  <tr><td>2</td><td>Reostato (iluminação do painel)</td></tr>
-  <tr><td>3</td><td>Tampa cega</td></tr>
-  <tr><td>4</td><td>Tampa cega</td></tr>
-  <tr><td>5</td><td>Pisca-alerta (OFF / ON)</td></tr>
-  <tr><td>6</td><td>Ventilador (OFF / ON)</td></tr>
+  <tr><th>Pos.</th><th>Função</th><th>Código</th></tr>
+  <tr><td>1</td><td>Interruptor dos faróis — <strong>3 posições</strong>: OFF → 1º (lanterna) → 2º (farol baixo)</td><td>F</td></tr>
+  <tr><td>2</td><td>Reostato (iluminação do painel)</td><td>F</td></tr>
+  <tr><td>3</td><td>Tampa cega</td><td>—</td></tr>
+  <tr><td>4</td><td>Tampa cega</td><td>—</td></tr>
+  <tr><td>5</td><td>Pisca-alerta (OFF / ON)</td><td>F</td></tr>
+  <tr><td>6</td><td>Ventilador (OFF / ON)</td><td>F</td></tr>
 </table>
 
 <!-- ═══════════════════════════════════════ -->
@@ -404,6 +441,7 @@
   <ul>
     <li>O reostato só funciona com o interruptor de faróis no <strong>1º ou 2º estágio</strong>.</li>
     <li>Com os faróis desligados, o painel permanece apagado independente do reostato.</li>
+    <li>Também ilumina: cinzeiro (K12) e tecla do ventilador (K13).</li>
   </ul>
 </div>
 
@@ -414,29 +452,55 @@
   <div class="car-diagram">
     <div class="title">Dianteira</div>
     <div class="front-view">
-      <div class="front-side"><div class="turn-signal"></div><div class="turn-label">seta E</div></div>
+      <div class="front-side">
+        <div class="turn-signal"></div>
+        <div class="front-label">U1 seta</div>
+        <div class="farolete"></div>
+        <div class="front-label">M1 farolete</div>
+      </div>
       <div class="light-group">
-        <div class="headlight"><span class="num">① ext</span></div>
-        <div class="headlight"><span class="num">② int</span></div>
+        <div class="headlight"><span class="num">L3 ① ext</span></div>
+        <div class="headlight"><span class="num">L2 ② int</span></div>
       </div>
       <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
       <div class="light-group">
-        <div class="headlight"><span class="num">② int</span></div>
-        <div class="headlight"><span class="num">① ext</span></div>
+        <div class="headlight"><span class="num">L1 ② int</span></div>
+        <div class="headlight"><span class="num">L ① ext</span></div>
       </div>
-      <div class="front-side"><div class="turn-signal"></div><div class="turn-label">seta D</div></div>
+      <div class="front-side">
+        <div class="turn-signal"></div>
+        <div class="front-label">U seta</div>
+        <div class="farolete"></div>
+        <div class="front-label">M farolete</div>
+      </div>
     </div>
     <div class="diagram-label">
-      <span>① = externo (para-lama) — duplo filamento</span>
-      <span>② = interno (centro) — filamento único (alto)</span>
+      <span>① ext = duplo filamento (baixo + alto)</span>
+      <span>② int = filamento único (alto)</span>
     </div>
   </div>
   <div class="car-diagram">
     <div class="title">Traseira</div>
     <div class="rear-view">
-      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
-      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
-      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+      <div class="rear-side">
+        <div class="rear-light"></div>
+        <div class="rear-label">M4 lant./freio</div>
+        <div class="rear-turn"></div>
+        <div class="rear-label">M5 seta</div>
+      </div>
+      <div class="rear-section">
+        <div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div>
+        <div class="rear-label">Z / Z1</div>
+        <div class="rear-plate">SP·1975</div>
+        <div class="reverse-light"></div>
+        <div class="rear-label">X2 ré</div>
+      </div>
+      <div class="rear-side">
+        <div class="rear-light"></div>
+        <div class="rear-label">M3 lant./freio</div>
+        <div class="rear-turn"></div>
+        <div class="rear-label">M2 seta</div>
+      </div>
     </div>
   </div>
 </div>
@@ -468,18 +532,18 @@
     <div class="car-diagram">
       <div class="title">Dianteira — apagado</div>
       <div class="front-view">
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
         <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
         <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
         <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
       </div>
     </div>
     <div class="car-diagram">
       <div class="title">Traseira — apagado</div>
       <div class="rear-view">
         <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
-        <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
         <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
       </div>
     </div>
@@ -492,9 +556,9 @@
 <div class="quad">
   <div class="quad-text">
     <ul>
-      <li>Faróis ① com <strong>luz fraca</strong> (filamento de lanterna)</li>
-      <li>Lanternas traseiras acesas</li>
-      <li>Iluminação da placa traseira</li>
+      <li>Faroletes dianteiros acesos (<strong>M / M1</strong>)</li>
+      <li>Lanternas traseiras acesas (<strong>M3 / M4</strong>)</li>
+      <li>Iluminação da placa (<strong>Z / Z1</strong>)</li>
       <li>Iluminação do painel (via reostato)</li>
     </ul>
   </div>
@@ -513,20 +577,20 @@
   </div>
   <div class="quad-bottom">
     <div class="car-diagram">
-      <div class="title">Dianteira — ① luz fraca</div>
+      <div class="title">Dianteira — faroletes (M/M1)</div>
       <div class="front-view">
-        <div class="front-side"><div class="turn-signal"></div></div>
-        <div class="light-group"><div class="headlight lanterna"><span class="num">① lant.</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
         <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
-        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight lanterna"><span class="num">① lant.</span></div></div>
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
       </div>
     </div>
     <div class="car-diagram">
-      <div class="title">Traseira — lanternas</div>
+      <div class="title">Traseira — lanternas + placa</div>
       <div class="rear-view">
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
-        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light on"></div><div class="plate-light on"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
       </div>
     </div>
@@ -539,9 +603,10 @@
 <div class="quad">
   <div class="quad-text">
     <ul>
-      <li>Faróis ① com <strong>luz forte</strong> (filamento baixo)</li>
-      <li>Lanternas traseiras</li>
-      <li>Iluminação da placa</li>
+      <li>Faróis ① com <strong>luz baixa</strong> (<strong>L / L3</strong>)</li>
+      <li>Faroletes dianteiros (<strong>M / M1</strong>)</li>
+      <li>Lanternas traseiras (<strong>M3 / M4</strong>)</li>
+      <li>Iluminação da placa (<strong>Z / Z1</strong>)</li>
     </ul>
   </div>
   <div class="quad-kb">
@@ -559,20 +624,20 @@
   </div>
   <div class="quad-bottom">
     <div class="car-diagram">
-      <div class="title">Dianteira — ① farol baixo</div>
+      <div class="title">Dianteira — ① baixo + faroletes</div>
       <div class="front-view">
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
         <div class="light-group"><div class="headlight low"><span class="num">① BAIXO</span></div><div class="headlight"><span class="num">②</span></div></div>
         <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
         <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight low"><span class="num">① BAIXO</span></div></div>
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
       </div>
     </div>
     <div class="car-diagram">
-      <div class="title">Traseira — lanternas</div>
+      <div class="title">Traseira — lanternas + placa</div>
       <div class="rear-view">
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
-        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light on"></div><div class="plate-light on"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
       </div>
     </div>
@@ -584,24 +649,24 @@
 
 <div class="quad">
   <div class="quad-text">
-    <p>A haste aciona o comutador. Os <strong>① (duplo filamento)</strong> mudam para o filamento alto. Os <strong>② (filamento único)</strong> acendem. Resultado: <strong>4 faróis no alto</strong>. Indicador azul no painel.</p>
+    <p>A haste (G) aciona o relé comutador (J10). Os <strong>① (L/L3 — duplo filamento)</strong> mudam para o filamento alto. Os <strong>② (L1/L2 — filamento único)</strong> acendem. Resultado: <strong>4 faróis no alto</strong>. Indicador azul (K4) no painel.</p>
   </div>
   <div class="quad-bottom">
     <div class="car-diagram">
       <div class="title">Dianteira — 4 faróis no alto</div>
       <div class="front-view">
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
         <div class="light-group"><div class="headlight high"><span class="num">① ALTO</span></div><div class="headlight high"><span class="num">② ALTO</span></div></div>
         <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
         <div class="light-group"><div class="headlight high"><span class="num">② ALTO</span></div><div class="headlight high"><span class="num">① ALTO</span></div></div>
-        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete on"></div></div>
       </div>
     </div>
     <div class="car-diagram">
-      <div class="title">Traseira — lanternas</div>
+      <div class="title">Traseira — lanternas + placa</div>
       <div class="rear-view">
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
-        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light on"></div><div class="plate-light on"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
         <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
       </div>
     </div>
@@ -613,7 +678,7 @@
 
 <div class="quad">
   <div class="quad-text">
-    <p>Acionado pelo botão 5 do painel. Todas as <strong>4 setas piscam simultaneamente</strong> (dianteiras e traseiras). Funciona independente do interruptor dos faróis.</p>
+    <p>Acionado pelo botão 5 do painel. Todas as <strong>4 setas piscam simultaneamente</strong> — dianteiras (U/U1) e traseiras (M2/M5). Funciona independente do interruptor dos faróis. Usa o relé J9.</p>
   </div>
   <div class="quad-kb">
     <div class="switch-panel sm">
@@ -632,18 +697,18 @@
     <div class="car-diagram">
       <div class="title">Dianteira — pisca-alerta</div>
       <div class="front-view">
-        <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">◀ ON</div></div>
+        <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">◀ ON</div><div class="farolete"></div></div>
         <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
         <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
         <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
-        <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">ON ▶</div></div>
+        <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">ON ▶</div><div class="farolete"></div></div>
       </div>
     </div>
     <div class="car-diagram">
       <div class="title">Traseira — pisca-alerta</div>
       <div class="rear-view">
         <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
-        <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
         <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
       </div>
     </div>
@@ -651,14 +716,72 @@
 </div>
 
 <!-- ═══════════════════════════════════════ -->
-<h2>Haste Esquerda — Setas e Faróis</h2>
+<h2>Luz de Freio</h2>
+
+<div class="quad">
+  <div class="quad-text">
+    <p>Acionada pelo interruptor <strong>J12</strong> ao pisar no pedal de freio. As lanternas traseiras <strong>M3/M4</strong> possuem duplo filamento — o segundo filamento (mais forte) acende como luz de freio.</p>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — sem alteração</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — freio (M3/M4)</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light brake"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
+        <div class="rear-side"><div class="rear-light brake"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Farol de Ré</h2>
+
+<div class="quad">
+  <div class="quad-text">
+    <p>O farol de ré (<strong>X2</strong>) é acionado automaticamente pelo interruptor <strong>J14</strong> ao engatar a marcha-à-ré.</p>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — sem alteração</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — ré (X2)</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light on"></div></div>
+        <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Haste Esquerda — Setas e Faróis (G)</h2>
 
 <table>
   <tr><th>Ação</th><th>Função</th></tr>
-  <tr><td>Para cima</td><td>Seta direita</td></tr>
-  <tr><td>Para baixo</td><td>Seta esquerda</td></tr>
+  <tr><td>Para cima</td><td>Seta direita (U + M2)</td></tr>
+  <tr><td>Para baixo</td><td>Seta esquerda (U1 + M5)</td></tr>
   <tr><td>Puxar (direção ao motorista)</td><td>Lampejador (flash de luz alta)</td></tr>
-  <tr><td>Empurrar para frente</td><td>Farol alto travado</td></tr>
+  <tr><td>Empurrar para frente</td><td>Farol alto travado (via J10)</td></tr>
 </table>
 
 <h3>Seta esquerda</h3>
@@ -666,18 +789,18 @@
   <div class="car-diagram">
     <div class="title">Dianteira</div>
     <div class="front-view">
-      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">◀ ON</div></div>
+      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">◀ U1</div><div class="farolete"></div></div>
       <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
       <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
       <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
-      <div class="front-side"><div class="turn-signal"></div></div>
+      <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
     </div>
   </div>
   <div class="car-diagram">
     <div class="title">Traseira</div>
     <div class="rear-view">
       <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
-      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+      <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
       <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
     </div>
   </div>
@@ -688,52 +811,108 @@
   <div class="car-diagram">
     <div class="title">Dianteira</div>
     <div class="front-view">
-      <div class="front-side"><div class="turn-signal"></div></div>
+      <div class="front-side"><div class="turn-signal"></div><div class="farolete"></div></div>
       <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
       <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
       <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
-      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">ON ▶</div></div>
+      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">U ▶</div><div class="farolete"></div></div>
     </div>
   </div>
   <div class="car-diagram">
     <div class="title">Traseira</div>
     <div class="rear-view">
       <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
-      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+      <div class="rear-section"><div class="plate-lights"><div class="plate-light"></div><div class="plate-light"></div></div><div class="rear-plate">SP·1975</div><div class="reverse-light"></div></div>
       <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
     </div>
   </div>
 </div>
 
 <!-- ═══════════════════════════════════════ -->
-<h2>Haste Direita — Limpador e Lavador</h2>
+<h2>Haste Direita — Limpador e Lavador (E)</h2>
 
 <table>
   <tr><th>Ação</th><th>Função</th></tr>
-  <tr><td>1ª posição para cima</td><td>Limpador lento</td></tr>
-  <tr><td>2ª posição para cima</td><td>Limpador rápido</td></tr>
-  <tr><td>Puxar (direção ao motorista)</td><td>Lavador (esguicho d'água)</td></tr>
+  <tr><td>1ª posição para cima</td><td>Limpador lento (W)</td></tr>
+  <tr><td>2ª posição para cima</td><td>Limpador rápido (W)</td></tr>
+  <tr><td>Puxar (direção ao motorista)</td><td>Lavador — esguicho d'água</td></tr>
 </table>
+
+<div class="note">
+  <ul>
+    <li>O SP2 possui temporizador do limpador (<strong>J8</strong>).</li>
+  </ul>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Iluminação Interna</h2>
+
+<div class="interior-grid">
+  <div class="interior-item">
+    <div class="icon">💡</div>
+    <div class="name">Luz Interior</div>
+    <div class="desc">Ilumina o habitáculo. Possui interruptores secundários nas portas (Y4/Y5).</div>
+    <div class="code">Y1</div>
+  </div>
+  <div class="interior-item">
+    <div class="icon">🚪</div>
+    <div class="name">Luz da Porta Direita</div>
+    <div class="desc">Acende ao abrir a porta direita.</div>
+    <div class="code">Y2</div>
+  </div>
+  <div class="interior-item">
+    <div class="icon">🚪</div>
+    <div class="name">Luz da Porta Esquerda</div>
+    <div class="desc">Acende ao abrir a porta esquerda.</div>
+    <div class="code">Y3</div>
+  </div>
+  <div class="interior-item">
+    <div class="icon">📖</div>
+    <div class="name">Luz de Leitura</div>
+    <div class="desc">Luz de leitura de mapas, lado do passageiro.</div>
+    <div class="code">Y</div>
+  </div>
+</div>
 
 <!-- ═══════════════════════════════════════ -->
 <h2>Indicadores do Painel</h2>
 
 <div class="indicators">
-  <div class="ind"><div class="dot blue"></div> Farol alto ligado</div>
-  <div class="ind"><div class="dot green"></div> Setas ativas</div>
-  <div class="ind"><div class="dot red"></div> Alternador / Óleo</div>
+  <div class="ind"><div class="dot blue"></div> Farol alto (K4)</div>
+  <div class="ind"><div class="dot green"></div> Setas (K10)</div>
+  <div class="ind"><div class="dot red"></div> Alternador (K9)</div>
+  <div class="ind"><div class="dot red"></div> Pressão do óleo (K11)</div>
 </div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Outros Componentes Elétricos</h2>
+
+<table>
+  <tr><th>Código</th><th>Componente</th></tr>
+  <tr><td>H / H1</td><td>Botão e buzinas (acionadas via relé J11)</td></tr>
+  <tr><td>I</td><td>Acendedor de cigarros</td></tr>
+  <tr><td>V</td><td>Ventilador (com resistência V1 para velocidade baixa)</td></tr>
+  <tr><td>R / R1 / R2 / R3</td><td>Rádio, antena, alto-falante dianteiro e traseiro</td></tr>
+  <tr><td>J9</td><td>Relé dos indicadores de direção</td></tr>
+  <tr><td>J10</td><td>Relé comutador das luzes</td></tr>
+  <tr><td>J11</td><td>Relé das buzinas</td></tr>
+  <tr><td>J15</td><td>Sensor de temperatura do óleo</td></tr>
+  <tr><td>J16</td><td>Interruptor da pressão do óleo</td></tr>
+</table>
 
 <!-- ═══════════════════════════════════════ -->
 <h2>Observações</h2>
 
 <div class="note">
   <ul>
-    <li>① são lâmpadas de <strong>duplo filamento</strong>: um para lanterna/baixo, outro para alto.</li>
-    <li>② são lâmpadas de <strong>filamento único</strong>: só acendem no farol alto.</li>
-    <li>Ao ligar o alto, o comutador alterna o filamento dos ① e acende os ②: <strong>4 faróis no modo alto</strong>.</li>
-    <li>O farol alto é acionado <strong>exclusivamente</strong> pela haste esquerda.</li>
-    <li>O lavador do para-brisa é acionado pela haste direita, não por botão no painel.</li>
+    <li>① (L/L3) são lâmpadas halogêneas de <strong>duplo filamento</strong>: um para baixo, outro para alto.</li>
+    <li>② (L1/L2) são lâmpadas halogêneas de <strong>filamento único</strong>: só acendem no farol alto.</li>
+    <li>M/M1 são os <strong>faroletes dianteiros</strong> (luzes de posição), separados dos faróis principais.</li>
+    <li>M3/M4 são as <strong>lanternas traseiras com duplo filamento</strong>: lanterna + luz de freio.</li>
+    <li>Ao ligar o alto, o comutador (J10) alterna o filamento dos ① e acende os ②: <strong>4 faróis no modo alto</strong>.</li>
+    <li>O farol alto é acionado <strong>exclusivamente</strong> pela haste esquerda (G).</li>
+    <li>O lavador do para-brisa é acionado pela haste direita (E), não por botão no painel.</li>
+    <li>O farol de ré (X2) é acionado automaticamente pelo interruptor da marcha-à-ré (J14).</li>
   </ul>
 </div>
 
