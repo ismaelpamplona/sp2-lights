@@ -48,7 +48,7 @@
     display: flex; flex-direction: column; align-items: center; justify-content: center;
   }
   .car-diagram .title {
-    font-size: 0.65rem; color: #555; text-transform: uppercase;
+    font-size: 0.65rem; color: #888; text-transform: uppercase;
     letter-spacing: 1px; text-align: center; margin-bottom: 10px;
   }
 
@@ -64,7 +64,7 @@
   }
   .headlight .num {
     position: absolute; bottom: -16px; left: 50%;
-    transform: translateX(-50%); font-size: 0.55rem; color: #444; white-space: nowrap;
+    transform: translateX(-50%); font-size: 0.55rem; color: #777; white-space: nowrap;
   }
 
   .grille {
@@ -104,7 +104,7 @@
     background: radial-gradient(circle, #ffaa33 0%, #cc7700 70%, #664400 100%);
     border-color: #aa7720; box-shadow: 0 0 8px rgba(255,170,51,0.4);
   }
-  .turn-label { font-size: 0.5rem; color: #444; }
+  .turn-label { font-size: 0.5rem; color: #888; }
 
   /* ─── Traseira ─── */
   .rear-view { display: flex; align-items: center; justify-content: center; gap: 20px; }
@@ -129,7 +129,7 @@
     width: 70px; height: 22px; background: #1a1a1a;
     border: 1px solid #282828; border-radius: 3px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.55rem; color: #444;
+    font-size: 0.55rem; color: #777;
   }
   .plate-light { width: 26px; height: 5px; border-radius: 3px; background: #111; margin: 0 auto; }
   .plate-light.on { background: #aa9955; box-shadow: 0 0 5px rgba(170,153,85,0.3); }
@@ -146,7 +146,7 @@
     width: 80px; height: 60px;
     background: #1a1a1a; border: 1px solid #333; border-radius: 4px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 0.75rem; color: #555; text-align: center;
+    font-size: 0.75rem; color: #777; text-align: center;
   }
   .sw.active { border-color: #886622; background: #221a0a; }
   .sw .h-icon { color: #cc3333; font-size: 1.3rem; }
@@ -163,7 +163,7 @@
   }
   .sw-stage-labels span {
     flex: 1; text-align: center; font-size: 0.6rem;
-    padding: 4px 0; color: #555; line-height: 1;
+    padding: 4px 0; color: #777; line-height: 1;
   }
   .sw-stage-labels span + span { border-left: 1px dashed #333; }
   .sw-stage-labels span.sel { color: #ffcc44; background: #221a0a; }
@@ -196,7 +196,7 @@
   .note li { color: #888; }
 
   .diagram-label {
-    text-align: center; font-size: 0.6rem; color: #444; margin-top: 8px;
+    text-align: center; font-size: 0.6rem; color: #777; margin-top: 8px;
   }
   .diagram-label span { margin: 0 6px; }
 
@@ -204,6 +204,65 @@
     display: flex; gap: 10px; margin: 12px 0;
   }
   .diagram-row .car-diagram { flex: 1; }
+
+  /* ─── Painel de instrumentos (grid 2×4) ─── */
+  .dash {
+    background: #080808; border: 2px solid #222; border-radius: 14px;
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-template-rows: auto auto;
+    gap: 8px 10px;
+    align-items: center; justify-items: center;
+    width: fit-content; margin: 0 auto;
+  }
+  .gauge {
+    border-radius: 50%;
+    border: 2px solid #333; background: #0a0a0a; position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .gauge .gauge-label {
+    font-size: 0.5rem; color: #555; text-align: center; line-height: 1.2;
+  }
+  .gauge .needle {
+    position: absolute; bottom: 50%; left: 50%;
+    width: 2px; height: 28px; background: #444;
+    transform-origin: bottom center; transform: rotate(-40deg);
+    border-radius: 1px;
+  }
+  /* Grande: conta-giro e velocímetro (span 2 rows) */
+  .gauge-lg {
+    width: 70px; height: 70px;
+    grid-row: 1 / 3;
+  }
+  .gauge-lg .needle { height: 24px; }
+  .gauge-lg .gauge-label { font-size: 0.48rem; }
+  /* Pequeno: gasolina, amperes, temp, relógio */
+  .gauge-sm {
+    width: 36px; height: 36px;
+  }
+  .gauge-sm .needle { height: 12px; }
+  .gauge-sm .gauge-label { font-size: 0.35rem; }
+
+  /* Intensidades do painel */
+  .dash.off .gauge { border-color: #1a1a1a; }
+  .dash.off .gauge-label { color: #1a1a1a; }
+  .dash.off .needle { background: #1a1a1a; }
+
+  .dash.mid .gauge { border-color: #5a4520; box-shadow: inset 0 0 16px rgba(160,120,25,0.12); }
+  .dash.mid .gauge-label { color: #7a6030; }
+  .dash.mid .needle { background: #cc6600; }
+
+  .dash.bright .gauge { border-color: #aa8830; box-shadow: inset 0 0 24px rgba(220,180,50,0.2); }
+  .dash.bright .gauge-label { color: #bb9940; }
+  .dash.bright .needle { background: #ff9922; box-shadow: 0 0 4px rgba(255,153,34,0.4); }
+
+  .rheostat-row {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 14px 0;
+  }
+  .rheostat-step { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .rheostat-step .label { font-size: 0.7rem; color: #777; text-align: center; }
+  .rheostat-arrow { font-size: 0.6rem; color: #555; text-align: center; margin: 4px 0; }
 
   @media (max-width: 700px) {
     .quad-bottom { grid-template-columns: 1fr; }
@@ -243,6 +302,54 @@
   <tr><td>5</td><td>Pisca-alerta (OFF / ON)</td></tr>
   <tr><td>6</td><td>Ventilador (OFF / ON)</td></tr>
 </table>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Reostato — Iluminação do Painel</h2>
+
+<p>O reostato (botão 2) controla a intensidade da iluminação dos instrumentos. Totalmente para cima = <strong>desligado</strong>. Girando para baixo, a intensidade aumenta gradualmente até o <strong>máximo</strong>.</p>
+
+<div class="rheostat-row">
+  <div class="rheostat-step">
+    <div class="label">Desligado<br><span style="color:#666;">(todo p/ cima)</span></div>
+    <div class="dash off">
+      <div class="gauge gauge-lg"><div class="needle"></div><div class="gauge-label">conta-<br>giro</div></div>
+      <div class="gauge gauge-lg"><div class="needle" style="transform:rotate(-20deg)"></div><div class="gauge-label">km/h</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(20deg)"></div><div class="gauge-label">comb.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(0deg)"></div><div class="gauge-label">amp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(10deg)"></div><div class="gauge-label">temp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(30deg)"></div><div class="gauge-label">relógio</div></div>
+    </div>
+  </div>
+  <div class="rheostat-step">
+    <div class="label">Médio<br><span style="color:#666;">(posição central)</span></div>
+    <div class="dash mid">
+      <div class="gauge gauge-lg"><div class="needle"></div><div class="gauge-label">conta-<br>giro</div></div>
+      <div class="gauge gauge-lg"><div class="needle" style="transform:rotate(-20deg)"></div><div class="gauge-label">km/h</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(20deg)"></div><div class="gauge-label">comb.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(0deg)"></div><div class="gauge-label">amp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(10deg)"></div><div class="gauge-label">temp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(30deg)"></div><div class="gauge-label">relógio</div></div>
+    </div>
+  </div>
+  <div class="rheostat-step">
+    <div class="label">Máximo<br><span style="color:#666;">(todo p/ baixo)</span></div>
+    <div class="dash bright">
+      <div class="gauge gauge-lg"><div class="needle"></div><div class="gauge-label">conta-<br>giro</div></div>
+      <div class="gauge gauge-lg"><div class="needle" style="transform:rotate(-20deg)"></div><div class="gauge-label">km/h</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(20deg)"></div><div class="gauge-label">comb.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(0deg)"></div><div class="gauge-label">amp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(10deg)"></div><div class="gauge-label">temp.</div></div>
+      <div class="gauge gauge-sm"><div class="needle" style="transform:rotate(30deg)"></div><div class="gauge-label">relógio</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <ul>
+    <li>O reostato só funciona com o interruptor de faróis no <strong>1º ou 2º estágio</strong>.</li>
+    <li>Com os faróis desligados, o painel permanece apagado independente do reostato.</li>
+  </ul>
+</div>
 
 <!-- ═══════════════════════════════════════ -->
 <h2>Conjunto Óptico — Referência</h2>
