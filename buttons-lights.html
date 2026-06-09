@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VW SP2 1975 — Iluminação e Comandos</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: #111;
+    color: #ddd;
+    padding: 30px 20px;
+    line-height: 1.6;
+  }
+  .page { max-width: 1060px; margin: 0 auto; }
+
+  h1 { text-align: center; font-size: 1.3rem; color: #6ab0ff; margin-bottom: 4px; }
+  .sub { text-align: center; color: #555; font-size: 0.8rem; margin-bottom: 30px; }
+
+  h2 {
+    font-size: 0.9rem; color: #6ab0ff; text-transform: uppercase;
+    letter-spacing: 1.5px; border-bottom: 1px solid #282828;
+    padding-bottom: 6px; margin: 32px 0 14px;
+  }
+  h3 { font-size: 1.05rem; color: #bbb; margin: 20px 0 10px; }
+
+  p, li { font-size: 0.82rem; color: #999; }
+  ul { padding-left: 20px; margin: 4px 0; }
+  li { margin: 2px 0; }
+  strong { color: #ddd; }
+
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 0.8rem; }
+  th { text-align: left; background: #1a1a2a; color: #7799bb; padding: 6px 10px; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; }
+  td { padding: 5px 10px; border-bottom: 1px solid #1a1a1a; color: #aaa; }
+
+  /* ─── Layout: texto / teclado / frente+tras ─── */
+  .quad {
+    display: flex; flex-direction: column; gap: 10px; margin: 12px 0;
+  }
+  .quad-text { }
+  .quad-kb { display: flex; justify-content: center; width: 50%; margin: 0 auto; }
+  .quad-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  .car-diagram {
+    background: #0a0a0a; border: 1px solid #222; border-radius: 10px;
+    padding: 18px 20px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .car-diagram .title {
+    font-size: 0.65rem; color: #555; text-transform: uppercase;
+    letter-spacing: 1px; text-align: center; margin-bottom: 10px;
+  }
+
+  /* ─── Frente ─── */
+  .front-view {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .light-group { display: flex; align-items: center; gap: 14px; }
+
+  .headlight {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid #333; background: #181818; position: relative;
+  }
+  .headlight .num {
+    position: absolute; bottom: -16px; left: 50%;
+    transform: translateX(-50%); font-size: 0.55rem; color: #444; white-space: nowrap;
+  }
+
+  .grille {
+    width: 56px; height: 30px; background: #0f0f0f;
+    border: 1px solid #282828; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center; margin: 0 4px;
+  }
+  .grille-bars { display: flex; gap: 3px; }
+  .grille-bars span { width: 2px; height: 14px; background: #282828; border-radius: 1px; }
+
+  /* ─── Estados faróis ─── */
+  .headlight.lanterna {
+    background: radial-gradient(circle, #bb9930 0%, #6b5510 50%, #2a2008 100%);
+    border-color: #7a6620; box-shadow: 0 0 8px rgba(187,153,48,0.25);
+  }
+  .headlight.lanterna .num { color: #8a7520; }
+
+  .headlight.low {
+    background: radial-gradient(circle, #ffdd44 0%, #cc9a10 40%, #6b5010 80%, #2a2008 100%);
+    border-color: #aa8820; box-shadow: 0 0 18px rgba(255,221,68,0.35);
+  }
+  .headlight.low .num { color: #aa8830; }
+
+  .headlight.high {
+    background: radial-gradient(circle, #fffff0 0%, #ffee88 30%, #ddaa20 65%, #6b5010 100%);
+    border-color: #ccaa30; box-shadow: 0 0 28px rgba(255,238,136,0.5), 0 0 10px rgba(255,255,220,0.3);
+  }
+  .headlight.high .num { color: #ddcc55; }
+
+  /* ─── Setas ─── */
+  .front-side { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .turn-signal {
+    width: 18px; height: 10px; border-radius: 3px;
+    border: 1px solid #333; background: #1a1508;
+  }
+  .turn-signal.on {
+    background: radial-gradient(circle, #ffaa33 0%, #cc7700 70%, #664400 100%);
+    border-color: #aa7720; box-shadow: 0 0 8px rgba(255,170,51,0.4);
+  }
+  .turn-label { font-size: 0.5rem; color: #444; }
+
+  /* ─── Traseira ─── */
+  .rear-view { display: flex; align-items: center; justify-content: center; gap: 20px; }
+  .rear-side { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .rear-light {
+    width: 36px; height: 22px; border-radius: 5px;
+    border: 2px solid #333; background: #1a0808;
+  }
+  .rear-light.on {
+    background: radial-gradient(circle, #ff4444 0%, #aa1111 60%, #551010 100%);
+    border-color: #882020; box-shadow: 0 0 12px rgba(255,50,50,0.3);
+  }
+  .rear-turn {
+    width: 28px; height: 10px; border-radius: 3px;
+    border: 1px solid #333; background: #1a1508;
+  }
+  .rear-turn.on {
+    background: radial-gradient(circle, #ffaa33 0%, #cc7700 70%, #664400 100%);
+    border-color: #aa7720; box-shadow: 0 0 8px rgba(255,170,51,0.4);
+  }
+  .rear-plate {
+    width: 70px; height: 22px; background: #1a1a1a;
+    border: 1px solid #282828; border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem; color: #444;
+  }
+  .plate-light { width: 26px; height: 5px; border-radius: 3px; background: #111; margin: 0 auto; }
+  .plate-light.on { background: #aa9955; box-shadow: 0 0 5px rgba(170,153,85,0.3); }
+  .rear-section { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+
+  /* ─── Painel central (teclado grande) ─── */
+  .switch-panel {
+    display: flex; gap: 5px;
+    background: #0a0a0a; padding: 14px 16px; border-radius: 8px;
+    border: 2px solid #282828; justify-content: center;
+    margin: 10px auto; width: fit-content; align-items: flex-start;
+  }
+  .sw {
+    width: 80px; height: 60px;
+    background: #1a1a1a; border: 1px solid #333; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; color: #555; text-align: center;
+  }
+  .sw.active { border-color: #886622; background: #221a0a; }
+  .sw .h-icon { color: #cc3333; font-size: 1.3rem; }
+  .sw .f-icon { color: #339933; font-size: 1.3rem; }
+  .sw .l-icon { color: #4477aa; font-size: 1.1rem; }
+  .sw .l-icon.active { color: #ffcc44; }
+
+  .sw-with-stages { display: flex; flex-direction: column; align-items: center; }
+  .sw-with-stages .sw { border-radius: 4px 4px 0 0; border-bottom: none; }
+  .sw-stage-labels {
+    width: 80px; display: flex;
+    border: 1px solid #333; border-top: 1px dashed #444;
+    border-radius: 0 0 4px 4px; background: #141414; overflow: hidden;
+  }
+  .sw-stage-labels span {
+    flex: 1; text-align: center; font-size: 0.6rem;
+    padding: 4px 0; color: #555; line-height: 1;
+  }
+  .sw-stage-labels span + span { border-left: 1px dashed #333; }
+  .sw-stage-labels span.sel { color: #ffcc44; background: #221a0a; }
+
+  /* Teclado compacto para quadrantes — preenche a coluna */
+  .switch-panel.sm {
+    padding: 10px 12px; gap: 4px; margin: 0;
+    width: 100%; justify-content: space-evenly;
+  }
+  .switch-panel.sm .sw { width: 56px; height: 40px; font-size: 0.65rem; }
+  .switch-panel.sm .sw .h-icon { font-size: 0.9rem; }
+  .switch-panel.sm .sw .f-icon { font-size: 0.9rem; }
+  .switch-panel.sm .sw .l-icon { font-size: 0.8rem; }
+  .switch-panel.sm .sw-stage-labels { width: 56px; }
+  .switch-panel.sm .sw-stage-labels span { font-size: 0.5rem; padding: 3px 0; }
+
+  /* ─── Indicadores ─── */
+  .indicators { display: flex; gap: 16px; justify-content: center; margin: 10px 0; }
+  .ind { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; color: #777; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot.blue { background: #3388ff; box-shadow: 0 0 4px rgba(51,136,255,0.4); }
+  .dot.green { background: #33bb55; box-shadow: 0 0 4px rgba(51,187,85,0.4); }
+  .dot.red { background: #dd3333; box-shadow: 0 0 4px rgba(221,51,51,0.4); }
+
+  .note {
+    background: #0d0d1a; border-left: 3px solid #334;
+    padding: 10px 14px; margin: 12px 0;
+    font-size: 0.78rem; color: #888; border-radius: 0 4px 4px 0;
+  }
+  .note li { color: #888; }
+
+  .diagram-label {
+    text-align: center; font-size: 0.6rem; color: #444; margin-top: 8px;
+  }
+  .diagram-label span { margin: 0 6px; }
+
+  .diagram-row {
+    display: flex; gap: 10px; margin: 12px 0;
+  }
+  .diagram-row .car-diagram { flex: 1; }
+
+  @media (max-width: 700px) {
+    .quad-bottom { grid-template-columns: 1fr; }
+    .diagram-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<h1>Volkswagen SP2 1975</h1>
+<p class="sub">Esquema Completo de Iluminação e Comandos</p>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Painel Central de Comandos</h2>
+
+<p style="font-size:0.72rem; color:#555; margin-bottom:6px;">Motorista ← → Passageiro</p>
+
+<div class="switch-panel">
+  <div class="sw-with-stages">
+    <div class="sw"><span class="l-icon">💡</span></div>
+    <div class="sw-stage-labels"><span>OFF</span><span>1º</span><span>2º</span></div>
+  </div>
+  <div class="sw-with-stages"><div class="sw">◉</div><div class="sw-stage-labels"><span>−</span><span>+</span></div></div>
+  <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+  <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+  <div class="sw-with-stages"><div class="sw"><span class="h-icon">⚠</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+  <div class="sw-with-stages"><div class="sw"><span class="f-icon">❋</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+</div>
+
+<table>
+  <tr><th>Pos.</th><th>Função</th></tr>
+  <tr><td>1</td><td>Interruptor dos faróis — <strong>3 posições</strong>: OFF → 1º (lanterna) → 2º (farol baixo)</td></tr>
+  <tr><td>2</td><td>Reostato (iluminação do painel)</td></tr>
+  <tr><td>3</td><td>Tampa cega</td></tr>
+  <tr><td>4</td><td>Tampa cega</td></tr>
+  <tr><td>5</td><td>Pisca-alerta (OFF / ON)</td></tr>
+  <tr><td>6</td><td>Ventilador (OFF / ON)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Conjunto Óptico — Referência</h2>
+
+<div class="diagram-row">
+  <div class="car-diagram">
+    <div class="title">Dianteira</div>
+    <div class="front-view">
+      <div class="front-side"><div class="turn-signal"></div><div class="turn-label">seta E</div></div>
+      <div class="light-group">
+        <div class="headlight"><span class="num">① ext</span></div>
+        <div class="headlight"><span class="num">② int</span></div>
+      </div>
+      <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="light-group">
+        <div class="headlight"><span class="num">② int</span></div>
+        <div class="headlight"><span class="num">① ext</span></div>
+      </div>
+      <div class="front-side"><div class="turn-signal"></div><div class="turn-label">seta D</div></div>
+    </div>
+    <div class="diagram-label">
+      <span>① = externo (para-lama) — duplo filamento</span>
+      <span>② = interno (centro) — filamento único (alto)</span>
+    </div>
+  </div>
+  <div class="car-diagram">
+    <div class="title">Traseira</div>
+    <div class="rear-view">
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Interruptor dos Faróis</h2>
+
+<!-- ── Desligado ── -->
+<h3>Desligado</h3>
+
+<div class="quad">
+  <div class="quad-text">
+    <p>Nenhuma luz externa acesa.</p>
+  </div>
+  <div class="quad-kb">
+    <div class="switch-panel sm">
+      <div class="sw-with-stages">
+        <div class="sw"><span class="l-icon">💡</span></div>
+        <div class="sw-stage-labels"><span class="sel">OFF</span><span>1º</span><span>2º</span></div>
+      </div>
+      <div class="sw-with-stages"><div class="sw">◉</div><div class="sw-stage-labels"><span>−</span><span>+</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="h-icon">⚠</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="f-icon">❋</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+    </div>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — apagado</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — apagado</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 1º estágio ── -->
+<h3>1º estágio — Lanternas</h3>
+
+<div class="quad">
+  <div class="quad-text">
+    <ul>
+      <li>Faróis ① com <strong>luz fraca</strong> (filamento de lanterna)</li>
+      <li>Lanternas traseiras acesas</li>
+      <li>Iluminação da placa traseira</li>
+      <li>Iluminação do painel (via reostato)</li>
+    </ul>
+  </div>
+  <div class="quad-kb">
+    <div class="switch-panel sm">
+      <div class="sw-with-stages">
+        <div class="sw active"><span class="l-icon active">💡</span></div>
+        <div class="sw-stage-labels"><span>OFF</span><span class="sel">1º</span><span>2º</span></div>
+      </div>
+      <div class="sw-with-stages"><div class="sw">◉</div><div class="sw-stage-labels"><span>−</span><span>+</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="h-icon">⚠</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="f-icon">❋</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+    </div>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — ① luz fraca</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="light-group"><div class="headlight lanterna"><span class="num">① lant.</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight lanterna"><span class="num">① lant.</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — lanternas</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2º estágio ── -->
+<h3>2º estágio — Farol Baixo</h3>
+
+<div class="quad">
+  <div class="quad-text">
+    <ul>
+      <li>Faróis ① com <strong>luz forte</strong> (filamento baixo)</li>
+      <li>Lanternas traseiras</li>
+      <li>Iluminação da placa</li>
+    </ul>
+  </div>
+  <div class="quad-kb">
+    <div class="switch-panel sm">
+      <div class="sw-with-stages">
+        <div class="sw active"><span class="l-icon active">💡</span></div>
+        <div class="sw-stage-labels"><span>OFF</span><span>1º</span><span class="sel">2º</span></div>
+      </div>
+      <div class="sw-with-stages"><div class="sw">◉</div><div class="sw-stage-labels"><span>−</span><span>+</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw" style="color:#333;">—</div><div class="sw-stage-labels"><span>cega</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="h-icon">⚠</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+      <div class="sw-with-stages"><div class="sw"><span class="f-icon">❋</span></div><div class="sw-stage-labels"><span>OFF</span><span>ON</span></div></div>
+    </div>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — ① farol baixo</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="light-group"><div class="headlight low"><span class="num">① BAIXO</span></div><div class="headlight"><span class="num">②</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight low"><span class="num">① BAIXO</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — lanternas</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Farol Alto (haste esquerda)</h2>
+
+<div class="quad">
+  <div class="quad-text">
+    <p>A haste aciona o comutador. Os <strong>① (duplo filamento)</strong> mudam para o filamento alto. Os <strong>② (filamento único)</strong> acendem. Resultado: <strong>4 faróis no alto</strong>. Indicador azul no painel.</p>
+  </div>
+  <div class="quad-bottom">
+    <div class="car-diagram">
+      <div class="title">Dianteira — 4 faróis no alto</div>
+      <div class="front-view">
+        <div class="front-side"><div class="turn-signal"></div></div>
+        <div class="light-group"><div class="headlight high"><span class="num">① ALTO</span></div><div class="headlight high"><span class="num">② ALTO</span></div></div>
+        <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="light-group"><div class="headlight high"><span class="num">② ALTO</span></div><div class="headlight high"><span class="num">① ALTO</span></div></div>
+        <div class="front-side"><div class="turn-signal"></div></div>
+      </div>
+    </div>
+    <div class="car-diagram">
+      <div class="title">Traseira — lanternas</div>
+      <div class="rear-view">
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+        <div class="rear-section"><div class="plate-light on"></div><div class="rear-plate">SP·1975</div></div>
+        <div class="rear-side"><div class="rear-light on"></div><div class="rear-turn"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Haste Esquerda — Setas e Faróis</h2>
+
+<table>
+  <tr><th>Ação</th><th>Função</th></tr>
+  <tr><td>Para cima</td><td>Seta direita</td></tr>
+  <tr><td>Para baixo</td><td>Seta esquerda</td></tr>
+  <tr><td>Puxar (direção ao motorista)</td><td>Lampejador (flash de luz alta)</td></tr>
+  <tr><td>Empurrar para frente</td><td>Farol alto travado</td></tr>
+</table>
+
+<h3>Seta esquerda</h3>
+<div class="diagram-row">
+  <div class="car-diagram">
+    <div class="title">Dianteira</div>
+    <div class="front-view">
+      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">◀ ON</div></div>
+      <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
+      <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+      <div class="front-side"><div class="turn-signal"></div></div>
+    </div>
+  </div>
+  <div class="car-diagram">
+    <div class="title">Traseira</div>
+    <div class="rear-view">
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
+      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+    </div>
+  </div>
+</div>
+
+<h3>Seta direita</h3>
+<div class="diagram-row">
+  <div class="car-diagram">
+    <div class="title">Dianteira</div>
+    <div class="front-view">
+      <div class="front-side"><div class="turn-signal"></div></div>
+      <div class="light-group"><div class="headlight"><span class="num">①</span></div><div class="headlight"><span class="num">②</span></div></div>
+      <div class="grille"><div class="grille-bars"><span></span><span></span><span></span><span></span><span></span></div></div>
+      <div class="light-group"><div class="headlight"><span class="num">②</span></div><div class="headlight"><span class="num">①</span></div></div>
+      <div class="front-side"><div class="turn-signal on"></div><div class="turn-label">ON ▶</div></div>
+    </div>
+  </div>
+  <div class="car-diagram">
+    <div class="title">Traseira</div>
+    <div class="rear-view">
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn"></div></div>
+      <div class="rear-section"><div class="plate-light"></div><div class="rear-plate">SP·1975</div></div>
+      <div class="rear-side"><div class="rear-light"></div><div class="rear-turn on"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Haste Direita — Limpador e Lavador</h2>
+
+<table>
+  <tr><th>Ação</th><th>Função</th></tr>
+  <tr><td>1ª posição para cima</td><td>Limpador lento</td></tr>
+  <tr><td>2ª posição para cima</td><td>Limpador rápido</td></tr>
+  <tr><td>Puxar (direção ao motorista)</td><td>Lavador (esguicho d'água)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Indicadores do Painel</h2>
+
+<div class="indicators">
+  <div class="ind"><div class="dot blue"></div> Farol alto ligado</div>
+  <div class="ind"><div class="dot green"></div> Setas ativas</div>
+  <div class="ind"><div class="dot red"></div> Alternador / Óleo</div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<h2>Observações</h2>
+
+<div class="note">
+  <ul>
+    <li>① são lâmpadas de <strong>duplo filamento</strong>: um para lanterna/baixo, outro para alto.</li>
+    <li>② são lâmpadas de <strong>filamento único</strong>: só acendem no farol alto.</li>
+    <li>Ao ligar o alto, o comutador alterna o filamento dos ① e acende os ②: <strong>4 faróis no modo alto</strong>.</li>
+    <li>O farol alto é acionado <strong>exclusivamente</strong> pela haste esquerda.</li>
+    <li>O lavador do para-brisa é acionado pela haste direita, não por botão no painel.</li>
+  </ul>
+</div>
+
+</div>
+</body>
+</html>
